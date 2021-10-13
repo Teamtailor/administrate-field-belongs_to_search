@@ -5,7 +5,7 @@ $(function() {
     $element.selectize({
       valueField: 'id',
       labelField: 'dashboard_display_name',
-      searchField: 'dashboard_display_name',
+      searchField: ['dashboard_display_name', 'searchField'],
       create: false,
       searchUrl: $element.data('url') + '?search=',
 
@@ -19,7 +19,10 @@ $(function() {
             callback();
           },
           success: function(res) {
-            callback(res.resources);
+            callback(res.resources.map(function(resource){
+              resource.searchField = query
+              return resource
+            }));
           }
         });
       },
